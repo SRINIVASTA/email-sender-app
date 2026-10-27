@@ -23,7 +23,7 @@ try:
         if not recipient:
             st.warning("Please specify a recipient email address.")
         else:
-            with st.spinner("Establishing SMTP handshake..."):
+            with st.spinner("Establishing secure SSL handshake..."):
                 try:
                     # 3. Build the structural multi-part email payload
                     message = MIMEMultipart()
@@ -32,9 +32,8 @@ try:
                     message["Subject"] = subject
                     message.attach(MIMEText(body, "plain"))
 
-                    # 4. Connect to Gmail SMTP
-                    server = smtplib.SMTP("smtp.gmail.com", 587)
-                    server.starttls() 
+                    # 4. Connect to Gmail SMTP using secure SSL over Port 465
+                    server = smtplib.SMTP_SSL("://gmail.com", 465)
                     
                     # Authenticate and send
                     server.login(sender_email, app_password)
@@ -45,7 +44,7 @@ try:
 
                 except smtplib.SMTPAuthenticationError:
                     st.error("Authentication Error: The 16-character App Password was rejected.")
-                    st.info("Verify that spaces were removed from the password string and that Google 2-Step Verification is active.")
+                    st.info("Verify that spaces were completely removed from the password string in your Secrets and that Google 2-Step Verification is still active.")
                 except Exception as exception_message:
                     st.error(f"Network Connection Failed: {exception_message}")
 
