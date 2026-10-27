@@ -32,8 +32,18 @@ try:
                     message["Subject"] = subject
                     message.attach(MIMEText(body, "plain"))
 
-                    # 4. Connect to Gmail SMTP using the correct address and Port 465
-                    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                    # 4. Connect to Gmail SMTP with a manual, clean handshake sequence
+                    # We use standard SMTP but add a timeout to prevent hanging, then upgrade securely.
+                    server = smtplib.SMTP("://gmail.com", 587, timeout=15)
+                    
+                    # Say hello to the server first to establish who we are
+                    server.ehlo() 
+                    
+                    # Upgrade the connection to secure TLS encryption
+                    server.starttls() 
+                    
+                    # Say hello again over the newly encrypted secure channel
+                    server.ehlo()
                     
                     # Authenticate and send
                     server.login(sender_email, app_password)
