@@ -23,8 +23,11 @@ if st.button("Send Email"):
         msg['To'] = email_receiver
         msg['Subject'] = subject
 
+        # Establish connection with explicit network handshakes (ehlo)
         server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
+        server.ehlo()  # Identify yourself to the server
+        server.starttls()  # Secure the connection with encryption
+        server.ehlo()  # Identify yourself again over the encrypted channel
         
         # Log in using secrets
         server.login(email_sender, app_password)
