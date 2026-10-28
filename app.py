@@ -3,6 +3,12 @@ import smtplib
 import time
 from email.mime.text import MIMEText
 
+# --- APPLICATION HEADER ---
+st.set_page_config(page_title="Bulk Email Sender", page_icon="✉️")
+st.title("✉️ Streamlit Email Mass Sender")
+st.markdown("Easily send secure bulk or individual emails through Gmail using Streamlit Secrets.")
+st.divider()
+
 # UI Inputs
 email_receiver_input = st.text_input('To (Recipient Email - separate multiple with commas)')
 subject = st.text_input('Subject')
