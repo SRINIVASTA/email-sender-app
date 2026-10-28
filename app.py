@@ -23,11 +23,8 @@ if st.button("Send Email"):
         msg['To'] = email_receiver
         msg['Subject'] = subject
 
-        # Establish connection with explicit network handshakes (ehlo)
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()  # Identify yourself to the server
-        server.starttls()  # Secure the connection with encryption
-        server.ehlo()  # Identify yourself again over the encrypted channel
+        # Switch to SMTP_SSL on Port 465 (highly stable for cloud apps)
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         
         # Log in using secrets
         server.login(email_sender, app_password)
