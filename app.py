@@ -1,6 +1,5 @@
 import streamlit as st
-import smtplib
-from email.mime.text import MIMEText
+import yagmail
 
 # Taking inputs from the UI (excluding the sender's password)
 email_receiver = st.text_input('To (Recipient Email)')
@@ -16,20 +15,17 @@ if st.button("Send Email"):
         st.error("Missing credentials! Please configure Streamlit Secrets.")
         st.stop()
 
-    # 2. Build and execute the email sequence
+    # 2. Build and execute the email sequence using yagmail
     try:
-        msg = MIMEText(body)
-        msg['From'] = email_sender
-        msg['To'] = email_receiver
-        msg['Subject'] = subject
-
-        # Switch to SMTP_SSL on Port 465 (highly stable for cloud apps)
-        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        # Initialize the yagmail client with your secret credentials
+        yag = yagmail.SMTP(user=email_sender, password=app_password)
         
-        # Log in using secrets
-        server.login(email_sender, app_password)
-        server.sendmail(email_sender, email_receiver, msg.as_string())
-        server.quit()
+        # Send the contents directly
+        yag.send(
+            to=email_receiver,
+            subject=subject,
+            contents=body
+        )
 
         st.success('Email sent successfully! 🚀')
     except Exception as e:
