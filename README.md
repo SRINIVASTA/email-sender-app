@@ -11,6 +11,23 @@ This Streamlit application allows you to securely send bulk or individual emails
 
 ---
 
+## 📂 Project Structure
+
+Ensure your project directory structure matches the layout below before running the application:
+
+```text
+email-sender-app/
+│
+├── .streamlit/
+│   └── secrets.toml   <-- Gmail credentials configured here
+│
+├── app.py             <-- Streamlit core application script
+├── README.md          <-- Application documentation
+└── requirements.txt   <-- Python dependency manifest
+```
+
+---
+
 ## ⚙️ Application Workflow
 
 ```mermaid
@@ -35,8 +52,6 @@ graph TD
 
 ---
 
----
-
 ## 🔒 Configuration & Authentication
 
 ### 1. Requirements (`requirements.txt`)
@@ -55,15 +70,6 @@ Gmail blocks standard password authentication from unverified third-party integr
 5. Save the generated 16-character string securely.
 
 ### 3. Streamlit Secrets Setup (`.streamlit/secrets.toml`)
-Create a local secrets file at the root level of your project directory structure:
-```text
-your_project/
-│
-├── .streamlit/
-│   └── secrets.toml  <-- Create this file
-└── app.py
-```
-
 Populate `.streamlit/secrets.toml` explicitly using this block structure:
 ```toml
 [gmail]
